@@ -1,4 +1,6 @@
-require "unitypackage/version"
+# frozen_string_literal: true
+
+require 'unitypackage/version'
 
 module Unitypackage
   class Error < StandardError; end
