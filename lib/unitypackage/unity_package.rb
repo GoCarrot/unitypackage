@@ -62,19 +62,19 @@ module UnityPackage
           @entries.sort.each do |guid, entry|
             # ./guid/asset.meta
             meta_txt = YAML.dump(entry.meta)
-            tar.add_file_simple("./#{guid}/asset.meta", 0o444, meta_txt.length) do |f|
+            tar.add_file_simple("./#{guid}/asset.meta", 0o444, meta_txt.bytesize) do |f|
               f.write(meta_txt)
             end
 
             # ./guid/pathname
-            tar.add_file_simple("./#{guid}/pathname", 0o444, entry.pathname.length) do |f|
+            tar.add_file_simple("./#{guid}/pathname", 0o444, entry.pathname.bytesize) do |f|
               f.write(entry.pathname)
             end
 
             # ./guid/asset
             next unless entry.asset
 
-            tar.add_file_simple("./#{guid}/asset", 0o444, entry.asset.length) do |f|
+            tar.add_file_simple("./#{guid}/asset", 0o444, entry.asset.bytesize) do |f|
               f.write(entry.asset)
             end
           end
