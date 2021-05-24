@@ -30,6 +30,30 @@ module UnityPackage
       end
     end
 
+    def <<(files)
+      files = [files] unless files.is_a? Array
+      files.each do |file|
+        next if File.extname(file) == '.meta'
+        file_meta = "#{file}.meta"
+
+        unless File.file?(file_meta)
+          if missing_meta_error
+            raise IOError.new("no meta file for #{file}")
+          else
+            puts "no meta file for #{file}"
+          end
+        else
+          meta_contents = File.read(file_meta)
+          meta = YAML.safe_load(meta_contents)
+          entry = Entry.new
+          entry.pathname = file
+          entry.meta = meta_contents
+          entry.asset = File.read(file) if File.file?(file)
+          @entries[meta.guid] = entry
+        end
+      end
+    end
+
     def write(io)
       Zlib::GzipWriter.wrap(io) do |gz|
         Gem::Package::TarWriter.new(gz) do |tar|
