@@ -4,7 +4,7 @@ require_relative 'lib/unitypackage/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'unitypackage'
-  spec.version       = Unitypackage::VERSION
+  spec.version       = UnityPackage::VERSION
   spec.authors       = ['Pat Wilson']
   spec.email         = ['zerostride@gmail.com']
 

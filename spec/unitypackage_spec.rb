@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Unitypackage do
+RSpec.describe UnityPackage do
   it 'has a version number' do
-    expect(Unitypackage::VERSION).not_to be nil
-  end
-
-  it 'does something useful' do
-    expect(false).to eq(true)
+    expect(UnityPackage::VERSION).not_to be nil
   end
 end

@@ -2,7 +2,7 @@
 
 require 'unitypackage/version'
 
-module Unitypackage
+module UnityPackage
   class Error < StandardError; end
   # Your code goes here...
 end
