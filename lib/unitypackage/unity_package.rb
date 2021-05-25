@@ -41,8 +41,10 @@ module UnityPackage
 
         if File.file?(file_meta)
           meta_contents = File.read(file_meta)
-          meta = YAML.safe_load(meta_contents)
-          guid = meta['guid']
+
+          # Note that .meta files are not actually YAML, but this works fine
+          guid = YAML.safe_load(meta_contents)['guid']
+
           entry = Entry.new
           entry.pathname = file
           entry.meta = meta_contents
@@ -61,9 +63,8 @@ module UnityPackage
         Gem::Package::TarWriter.new(gz) do |tar|
           @entries.sort.each do |guid, entry|
             # ./guid/asset.meta
-            meta_txt = YAML.dump(entry.meta)
-            tar.add_file_simple("./#{guid}/asset.meta", 0o444, meta_txt.bytesize) do |f|
-              f.write(meta_txt)
+            tar.add_file_simple("./#{guid}/asset.meta", 0o444, entry.meta.bytesize) do |f|
+              f.write(entry.meta)
             end
 
             # ./guid/pathname
@@ -102,7 +103,7 @@ module UnityPackage
             when 'asset'
               @entries[guid].asset = entry.read
             when 'meta'
-              @entries[guid].meta = YAML.safe_load(entry.read)
+              @entries[guid].meta = entry.read
             end
           end
         end
